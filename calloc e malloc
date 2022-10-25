@@ -1,0 +1,24 @@
+void *ft_calloc(size_t nmemb, size_t size)
+{
+    void *str;
+    str = malloc(size * nmemb);
+    int i;
+    i = 0;
+    while (i < nmemb)
+    {
+        str[i] = '0';
+        i++;
+    }
+    return(str);
+}
+
+char *str;
+str = malloc(sizeof (char) * ft_strlen(array) + 1);
+int i;
+i = 0;
+while (array[i])
+{
+    str[i] = array[i];
+    i++;
+}
+str[i] = '\0';
