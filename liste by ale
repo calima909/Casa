@@ -1,0 +1,59 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   prova.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fchiocci <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/10/24 12:51:21 by fchiocci          #+#    #+#             */
+/*   Updated: 2022/11/01 18:40:33 by fchiocci         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include <stdlib.h>
+#include <stdio.h>
+#include <unistd.h>
+
+typedef struct my_struct
+{
+    char * nome;
+    int eta;
+    struct my_struct    *next;
+    
+    
+    
+} studente;
+
+studente *ft_lstnew(char *nome, int eta)
+{
+    studente *new;
+    new = (studente *) malloc (sizeof (studente));
+    if(!new)
+        return (NULL);
+    new->nome = nome;
+    new->eta = eta;
+    new->next = NULL;
+    return(new);
+}
+
+void ft_lstadd_front(studente **lst, char *nome, int eta)
+{
+    studente *new;
+    new = ft_lstnew(nome, eta);
+    new->next = *lst;
+    *lst = new;
+    
+}
+
+int main()
+{
+    studente *testa;
+    
+    testa = ft_lstnew("filippo", 23);
+    ft_lstadd_front(&testa, "ale", 32);
+    while (testa != NULL)
+    {
+        printf("%s\t%d\n", testa->nome, testa->eta);
+        testa = testa->next;
+    }
+}
