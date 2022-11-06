@@ -16,7 +16,7 @@
 
 
 typedef struct s_list{
-    char *nome;
+    char *content;
     struct s_list *next;
 } t_list;
 
@@ -26,7 +26,7 @@ t_list *ft_lstnew(void *content)
     new = (t_list*) malloc (sizeof(t_list));
     if (!new)
         return(NULL);
-    new->nome = content;
+    new->content = content;
     new->next = NULL;
     return(new);
 }
@@ -67,22 +67,52 @@ t_list *ft_lstlast(t_list *lst)
     return(lst);
 }
 
-void    ft_lstadd_back(t_list **alst, t_list *new)
+void ft_lstadd_back(t_list **lst, t_list *new)
 {
 	t_list	*tmp;
     new = ft_lstnew(new);
 
-	if (alst)
+	if (lst)
 	{
-		if (*alst == NULL)
-			*alst = new;
+		if (*lst == NULL)
+			*lst = new;
 		else
 		{
-			tmp = ft_lstlast(*(alst));
+			tmp = ft_lstlast(*(lst));
 			tmp->next = new;
             new->next = NULL;
-
 		}
+	}
+}
+
+void ft_lstdelone(t_list *lst, void (*del)(void*))
+{
+    if (!lst)
+        return (NULL);
+    del(lst->content);
+    free(lst);
+}
+
+void ft_lstclear(t_list **lst, void (*del)(void*))
+{
+    if (!lst)
+        return (NULL);
+    while (*lst)
+    {
+        del(lst->content);
+        *lst = lst->next;
+        free(lst);
+    }
+}
+
+void ft_lstiter(t_list *lst, void (*f)(void *))
+{
+	if (!lst)
+		return (NULL);
+	while (lst)
+	{
+		f(lst->content);
+		lst = lst->next;
 	}
 }
 
@@ -95,7 +125,7 @@ int main()
     head = NULL;
     head = ft_lstnew("filippo");
     
-    //printf("%s\n\n", head->nome);
+    //printf("%s\n\n", head->content);
         
     ft_lstadd_front(&head, (t_list*)"marco");
     ft_lstadd_front(&head, (t_list*)"gianni");
@@ -104,11 +134,11 @@ int main()
     size = head;
     while(head != NULL)    
     {
-        printf("%s\n", head->nome);
+        printf("%s\n", head->content);
         head = head->next;
     }
     last = ft_lstlast(&head);
     printf("La lst_size e' %d\n", ft_lstsize(size));
 
-    printf("Il lst_last e' %s\n", last->nome);
+    printf("Il lst_last e' %s\n", last->content);
 }
